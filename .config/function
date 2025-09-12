@@ -51,11 +51,13 @@ function __prompt_git () {
     git_status=$(git status --porcelain 2>/dev/null)
 
     # Append symbols if conditions are met
-    echo "$git_status" | grep -q '^UU' && symbols+=" $(__c 9)!$RESET"
-    echo "$git_status" | grep -q '^\?\?' && symbols+=" $(__c 14)?$RESET"
-    echo "$git_status" | grep -q '^ M' && symbols+=" $(__c 11)+$RESET"
-    echo "$git_status" | grep -q '^M ' && symbols+=" $(__c 2)=$RESET"
-    echo "$git_status" | grep -q '^ D' && symbols+=" $(__c 1)-$RESET"
+    while IFS= read -r line; do
+        [[ $line =~ ^UU ]] && symbols+=" $(coloring 9)${GIT_CONFLICT}${RESET}"
+        [[ $line =~ ^\?\? ]] && symbols+=" $(coloring 14)${GIT_UNTRACKED}${RESET}"
+        [[ $line =~ ^\ M ]] && symbols+=" $(coloring 11)${GIT_STAGED}${RESET}"
+        [[ $line =~ ^M\  ]] && symbols+=" $(coloring 2)${GIT_MODIFIED}${RESET}"
+        [[ $line =~ ^\ D ]] && symbols+=" $(coloring 1)${GIT_DELETED}${RESET}"
+    done <<< "$git_status"
 
     # Ahead of remote
     # shellcheck disable=SC1083
