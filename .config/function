@@ -1,0 +1,85 @@
+# shellcheck disable=SC2148
+
+# Helpers
+function __c () { [[ -z "$1" ]] && set -- 7; echo "\[$(tput setaf "$1")\]"; }
+
+function __bg () { [[ -z "$1" ]] && set -- 0; echo "\[$(tput setab "$1")\]"; }
+
+function __cache_get () { echo -n "${__PROMPT_CACHE[$1]}"; }
+
+function __cache_set () { __PROMPT_CACHE[$1]="$2"; }
+
+# User + Host block
+function __prompt_user_host () {
+
+    local user="\u"
+    local host=""
+
+    # Show hostname only if SSH, prefixed with "ssh:"
+    if [[ -n "$SSH_CONNECTION" || -n "$SSH_TTY" || -n "$SSH_CLIENT" ]]; then
+        host="@ssh:\h"
+    fi
+
+    if [[ $EUID -eq 0 ]]; then
+        # Root: C_USER foreground, white background
+        echo -ne "${BOLD}$(__c "$C_USER")$(__bg 7)${user}${RESET}$(__c "$C_HOST")${host}${RESET} ~ "
+    else
+        # Non-root: white foreground, C_USER background
+        echo -ne "${BOLD}$(__c 7)$(__bg "$C_USER")${user}${RESET}$(__c "$C_HOST")${host}${RESET} ~ "
+    fi
+}
+
+# Current working dir
+function __prompt_cwd () {
+
+    local cwd="$PWD"
+
+    # If in home directory, show ~
+    [[ "$cwd" == "$HOME" ]] && cwd=""
+    [[ "$cwd" != "$HOME" && $EUID -ne 0 ]] && cwd="${cwd##*/}"
+
+    echo -ne "$(__c "$C_PATH")${cwd}${RESET}"
+}
+
+# Git status with Starship-style symbols, Ced, no brackets, using && logic
+function __prompt_git () {
+
+    git rev-parse --is-inside-work-tree >/dev/null 2>&1 || return
+
+    local branch symbols="" git_status
+    branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+    git_status=$(git status --porcelain 2>/dev/null)
+
+    # Append symbols if conditions are met
+    echo "$git_status" | grep -q '^UU' && symbols+=" $(__c 9)!$RESET"
+    echo "$git_status" | grep -q '^\?\?' && symbols+=" $(__c 14)?$RESET"
+    echo "$git_status" | grep -q '^ M' && symbols+=" $(__c 11)+$RESET"
+    echo "$git_status" | grep -q '^M ' && symbols+=" $(__c 2)=$RESET"
+    echo "$git_status" | grep -q '^ D' && symbols+=" $(__c 1)-$RESET"
+
+    # Ahead of remote
+    git rev-list --count --left-right @{upstream}...HEAD >/dev/null 2>&1 && \
+        ahead=$(git rev-list --count --left-right @{upstream}...HEAD 2>/dev/null | awk '{print $2}') && \
+        [[ $ahead -gt 0 ]] && symbols+=" $(__c 5)^$RESET"
+
+    # Output
+    echo -ne " $(__c $C_GIT)(${RESET} $branch$symbols $(__c $C_GIT))${RESET}"
+
+}
+
+# Exit status
+function __prompt_exit () {
+
+    local code=$?
+    [[ $code -ne 0 ]] && echo -ne " $(__c $C_EXIT)✘ $code${RESET}"
+
+}
+
+# Virtual Env
+function __prompt_venv () {
+
+    [[ -n "$VIRTUAL_ENV" ]] &&
+    echo -ne " $(__c "$C_VENV")($(basename "$VIRTUAL_ENV"))${RESET}" ||
+    [[ -z "$VIRTUAL_ENV" ]] && echo -ne ""
+
+}

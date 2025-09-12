@@ -1,0 +1,59 @@
+# Cs (tput setaf indexes)
+
+# Configurable Cs
+# black=0     gray=8
+# maroon=1    red=9
+# green=2     lime=10
+# olive=3     yellow=11
+# navy=4      blue=12
+# purple=5    magenta=13
+# teal=6      cyan=14
+# silver=7    white=15
+
+C_USER=13
+C_HOST=6
+C_PATH=13
+C_VENV=5
+C_TIME=7
+
+# Git branch C
+C_GIT=13
+
+C_WARNING=95
+C_TITLE=95
+C_BG_SO=95
+
+# Prompt behavior
+SHOW_EXIT=1
+SHOW_TIME=1
+SHOW_VENV=1
+
+C_ERROR=1
+C_WARNING=3
+C_NOTE=5
+C_CARET=2
+C_LOCUS=6
+C_QUOTE=7
+
+# Module order
+PROMPT_ORDER=( "user_host" "path" "git" "venv" )
+
+# Final prompt symbols
+PROMPT_SYMBOL=">"
+PROMPT_SYMBOL_ROOT="#"
+
+# Final prompt Cs based on exit code
+SUCCESS=2   # green
+ERROR=1     # red
+
+# Git branch and status brackets
+OPEN="("
+CLOSE=")"
+
+# Git symbols
+CONFLICT="!"
+UNTRACKED="?"
+STAGED="+"
+MODIFIED="="
+DELETED="-"
+AHEAD="^"

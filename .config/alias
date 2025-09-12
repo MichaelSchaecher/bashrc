@@ -1,0 +1,85 @@
+# shellcheck disable=SC2148
+
+### APT ALIASES ###
+alias update='sudo apt update && sudo apt dist-upgrade --yes'
+alias query='sudo apt list'
+alias inst='sudo apt install --yes'
+alias uinst='sudo apt purge --yes --autoremove'
+alias srch='apt search'
+alias clean='sudo apt clean && sudo apt autoclean'
+
+### HUGO ALIASES ###
+alias server='hugo server --noHTTPCache --buildDrafts  --disableFastRender'
+alias site='hugo new site --format yaml'
+alias content='hugo new content'
+alias syntax='hugo gen chromastyles --style'
+
+### GIT AND GITHUB ALIASES ###
+alias initial='git init'
+alias add='git add --all'
+alias branch='git checkout'
+alias delete='git branch -D'
+alias checkout='git checkout -b'
+alias merge='git merge'
+alias patches='git checkout --patch'
+alias gitmod='git submodule add'
+alias gitmodup='git submodule update --recursive --remote'
+alias commit='git commit -m'
+alias push='git push origin'
+
+### GitHub CLI Aliases ###
+alias ghr='gh repo delete --yes'
+alias clone='gh repo clone'
+alias gitsrch='gh search repos -L 50 --sort updated'
+alias release='gh release create'
+alias remove='gh release delete-asset --yes'
+alias upload='gh release upload --clobber'
+
+### EXA ALIASES ###
+alias ls='exa --git --color=always'
+alias ll='exa -l --git --color=always'
+alias la='exa -la --git --color=always'
+alias lt='exa -T --git --color=always'
+
+### GERP ALIASES ###
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+### UTILITIES ALIASES ###
+alias mkdir='mkdir -vp'
+alias cp='cp -av'
+alias rm='rm -v'
+alias mv='mv -v'
+
+alias ln='ln -v'
+
+alias free='free -h'
+alias df='df -h'
+
+alias gcc='gcc -fdiagnostics-color'
+
+alias ping='ping -c 5'
+
+### ARCHIVE ALIASES ###
+alias xz='tar cvf'
+alias gz='tar cvjf'
+alias bzip2='bzip2 -zk'
+alias rar='rar a'
+alias gzip='gzip -9'
+alias zip='zip -r'
+alias 7z='7z a'
+
+### SSH ALIASES ###
+alias key='ssh-keygen -P "" -f'
+alias csk='ssh-copy-id -i'
+
+test -x "$(command -v pihole)" || alias pihole='ssh pihole'
+
+alias nano='nano -c'
+
+### DIRECTORY ALIASES ###
+alias bk='../'
+alias home='~'
+
+alias reload='source ~/.profile'
