@@ -1,6 +1,7 @@
-# Cs (tput setaf indexes)
+# shellcheck disable=SC2148
+# Colors (tput setaf indexes)
 
-# Configurable Cs
+# Configurable colors
 # black=0     gray=8
 # maroon=1    red=9
 # green=2     lime=10
@@ -57,3 +58,4 @@ STAGED="+"
 MODIFIED="="
 DELETED="-"
 AHEAD="^"
+CLEAN=""

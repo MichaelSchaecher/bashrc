@@ -59,7 +59,7 @@ function __prompt_git () {
         [[ $line =~ ^\ D ]] && symbols+=" $(coloring 1)${GIT_DELETED}${RESET}"
 
         # Show nothing if clean
-        [[ $line =~ ^$ ]] && symbols=""
+        [[ -z $git_status ]] && symbols+=" $(coloring 10)${GIT_CLEAN}${RESET}"
     done <<< "$git_status"
 
     # Ahead of remote
