@@ -58,12 +58,13 @@ function __prompt_git () {
     echo "$git_status" | grep -q '^ D' && symbols+=" $(__c 1)-$RESET"
 
     # Ahead of remote
+    # shellcheck disable=SC1083
     git rev-list --count --left-right @{upstream}...HEAD >/dev/null 2>&1 && \
         ahead=$(git rev-list --count --left-right @{upstream}...HEAD 2>/dev/null | awk '{print $2}') && \
         [[ $ahead -gt 0 ]] && symbols+=" $(__c 5)^$RESET"
 
     # Output
-    echo -ne " $(__c $C_GIT)(${RESET} $branch$symbols $(__c $C_GIT))${RESET}"
+    echo -ne " $(__c "$C_GIT")(${RESET} $branch$symbols $(__c "$C_GIT"))${RESET}"
 
 }
 
@@ -71,7 +72,7 @@ function __prompt_git () {
 function __prompt_exit () {
 
     local code=$?
-    [[ $code -ne 0 ]] && echo -ne " $(__c $C_EXIT)✘ $code${RESET}"
+    [[ $code -ne 0 ]] && echo -ne " $(__c "$C_EXIT")✘ $code${RESET}"
 
 }
 
