@@ -5,7 +5,7 @@
 # Modular prompt builder
 function bash_prompt() {
 
-    local exit_code=$? ps=""
+    local ps="" color="$"
 
     for mod in "${PROMPT_ORDER[@]}"; do case $mod in
             user_host           ) ps+="$(__prompt_user_host)" ;;
@@ -18,9 +18,8 @@ function bash_prompt() {
     local symbol color
 
     [[ $EUID -eq 0 ]] && symbol="#" || symbol=">"
-    [[ $exit_code -eq 0 ]] && color=$C_SUCCESS || color=$C_ERROR
 
-    PS1="\n$(__c "$color")$ps $symbol$RESET "
+    PS1="\n$ps ${symbol}$RESET "
 }
 
 # shellcheck disable=SC1091
