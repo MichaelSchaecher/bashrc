@@ -32,10 +32,12 @@ function __prompt_user_host () {
 # Current working dir
 function __prompt_cwd () {
 
-    local cwd="$(basename "$PWD")"
+    local cwd
+
+    cwd="$(basename "$PWD")"
 
     # If in home directory, show ~
-    [[ "$cwd" == "$HOME" ]] && cwd="" || cwd="../${cwd/#$HOME\~}"
+    [[ "$cwd" == "$USER" ]] && cwd="" || cwd="../${cwd/$HOME\//~\/}"
 
     echo -ne "$(__c "$C_PATH")${cwd}${RESET}"
 }
