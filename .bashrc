@@ -1,34 +1,34 @@
 # shellcheck disable=SC2148
-# ~/.bashrc
+# $HOME/.bashrc
 
 # Assemble prompt
 # Modular prompt builder
 function bash_prompt() {
+
     local exit_code=$? ps=""
-    for mod in "${PROMPT_ORDER[@]}"; do
-        case $mod in
-            user_host) ps+="$(__prompt_user_host)" ;;
-            path)      ps+="$(__prompt_cwd)"       ;;
-            git)       ps+="$(__prompt_git)"       ;;
-            venv)      ps+="$(__prompt_venv)"      ;;
-            time)      ps+="$(__prompt_time)"      ;;
-        esac
-    done
+
+    for mod in "${PROMPT_ORDER[@]}"; do case $mod in
+            user_host           ) ps+="$(__prompt_user_host)" ;;
+            path                ) ps+="$(__prompt_cwd)"       ;;
+            git                 ) ps+="$(__prompt_git)"       ;;
+            venv                ) ps+="$(__prompt_venv)"      ;;
+            time                ) ps+="$(__prompt_time)"      ;;
+    esac done
 
     local symbol color
+
     [[ $EUID -eq 0 ]] && symbol="#" || symbol=">"
     [[ $exit_code -eq 0 ]] && color=$C_SUCCESS || color=$C_ERROR
 
-    PS1="\n$(__c $color)$ps $symbol$RESET "
+    PS1="\n$(__c "$color")$ps $symbol$RESET "
 }
 
 # shellcheck disable=SC1091
 [[ ! -n "${PS1}" ]] || source "/usr/share/bash-completion/bash_completion"
 
-[[ -f ~/.config/env ]] && source ~/.config/env
-[[ -f ~/.config/alias ]] && source ~/.config/alias
-
-[[ -f ~/.config/function ]] && source ~/.config/functions
+for f in modules functions env alias; do
+    [[ -f "$HOME/.bashrc.d/$f" ]] && source "$HOME/.bashrc.d/$f"
+done
 
 # Enable some useful feature that makes `bash` more like `zsh` then people think.
 shopt -s checkwinsize autocd extglob histappend cmdhist lithist
@@ -40,7 +40,7 @@ bind '"\e[A": history-search-backward' ; bind '"\e[B": history-search-forward'
 [[ ! -x "$(command -v hugo)" ]] || source <(hugo completion bash)
 
 # Add .local/bin to the path.
-test -d ~/.local/bin && PATH="${PATH}:$HOME/.local/bin"
+test -d "$HOME/.local/bin" && PATH="${PATH}:$HOME/.local/bin"
 
 declare -A __PROMPT_CACHE
 

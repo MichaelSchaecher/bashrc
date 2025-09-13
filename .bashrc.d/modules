@@ -76,16 +76,15 @@ function __prompt_exit () {
 
     local code=$?
 
-    [[ $code -ne 0 ]] && echo -ne " $(__c $C_EXIT)✘ $code${RESET}"
+    [[ $code -ne 0 ]] && echo -ne " $(__c "$C_EXIT")✘ $code${RESET}"
 
 }
 
 # Virtual Env
 function __prompt_venv () {
     if [[ -n "$VIRTUAL_ENV" ]]; then
-        echo -ne " $(__c $C_VENV)($(basename "$VIRTUAL_ENV"))${RESET}"
+        echo -ne " $(__c "$C_VENV")($(basename "$VIRTUAL_ENV"))${RESET}"
     else
         echo -ne ""
     fi
 }
-
