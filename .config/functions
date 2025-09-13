@@ -51,9 +51,9 @@ function __prompt_git () {
 
     # Append symbols if conditions are met
     echo "$git_status" | grep -q '^UU' && symbols+=" $(__c 9)$CONFLICT$RESET"
-    echo "$git_status" | grep -q '^\?\?' && symbols+=" $(__c 14)$UNTRACKED$RESET"
-    echo "$git_status" | grep -q '^ M' && symbols+=" $(__c 11)$STAGED$RESET"
-    echo "$git_status" | grep -q '^MM' && symbols+=" $(__c 2)$MODIFIED$RESET"
+    echo "$git_status" | grep -q '^??' && symbols+=" $(__c 14)$UNTRACKED$RESET"
+    echo "$git_status" | grep -q '^M ' && symbols+=" $(__c 11)$STAGED$RESET"
+    echo "$git_status" | grep -q '^ M' && symbols+=" $(__c 2)$MODIFIED$RESET"
     echo "$git_status" | grep -q '^ D' && symbols+=" $(__c 1)$DELETED$RESET"
 
     # Ahead of remote

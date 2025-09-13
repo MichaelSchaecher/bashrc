@@ -12,10 +12,14 @@
 # silver=7    white=15
 
 C_USER=13
+C_USER_BG=7
 C_HOST=6
 C_PATH=13
 C_VENV=5
 C_TIME=7
+
+RESET="\[$(tput sgr0)\]"
+BOLD="\[$(tput bold)\]"
 
 # Git branch C
 C_GIT=13
@@ -54,8 +58,8 @@ CLOSE=")"
 # Git symbols
 CONFLICT="!"
 UNTRACKED="?"
-STAGED="+"
-MODIFIED="="
+STAGED="*"
+MODIFIED="+"
 DELETED="-"
 AHEAD="^"
 CLEAN=""
